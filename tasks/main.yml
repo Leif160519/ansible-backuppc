@@ -1,10 +1,13 @@
 ---
 
 - name: INCLUDE | Install
+  tags: [install, never]
   include: install.yml
 
 - name: INCLUDE | Configuration
+  tags: [config]
   include: config.yml
 
 - name: INCLUDE | SSH related configuration
+  tags: [ssh, never]
   include: ssh.yml

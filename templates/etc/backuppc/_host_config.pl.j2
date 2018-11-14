@@ -2,31 +2,35 @@
 # {{ ansible_managed }}
 #
 
-{% if item.include_files is defined %}
-$Conf{BackupFilesOnly} = {
-	'*' => [
-{% for item in item.include_files %}
-		'{{ item }}'{% if not loop.last %},{% endif %}
+$Conf{ClientNameAlias} = ['{{ hostvars[item.hostname].ansible_ssh_host }}'];
+$Conf{XferMethod} = '{{ item.xfermethod | default("rsync") }}';
+$Conf{ClientCharsetLegacy} = 'utf-8';
 
+$Conf{BackupFilesOnly} = {
+  '*' => [
+     '/boot/grub/grub.cfg'
+    ,'/etc/fstab'
+    ,'/etc/network/interfaces'
+    ,'/root/.ssh/'
+    ,'/var/backups/'
+{% if item.include_files is defined %}
+{% for item in item.include_files %}
+    ,'{{ item }}'
 {% endfor %}
-	]
-};
 {% endif %}
+  ]
+};
 
 {% if item.exclude_files is defined %}
 $Conf{BackupFilesExclude} = {
-	'*' => [
+  '*' => [
+     '/tmp/'
 {% for item in item.exclude_files %}
-		'{{ item }}'{% if not loop.last %},{% endif %}
-
+    ,'{{ item }}'
 {% endfor %}
-	]
+  ]
 };
 {% endif %}
-
-$Conf{XferMethod} = '{{ item.xfermethod | default("rsync") }}';
-
-$Conf{ClientCharsetLegacy} = 'utf-8';
 
 {% if item.more is defined %}
 # More options...
