@@ -34,7 +34,7 @@ $Conf{BackupFilesExclude} = {
 
 {% if item.more is defined %}
 # More options...
-{% for key, value in item.more.iteritems() %}
+{% for key, value in item.more.items() %}
 {% if value is string %}
 $Conf{{ '{' }}{{ key }}{{ '}' }} = '{{ value }}';
 {% else %}
