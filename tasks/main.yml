@@ -16,6 +16,7 @@
   file: path='/etc/backuppc/pc/{{ item.hostname }}.pl' state=absent
   with_items: "{{ backuppc_hosts }}"
   when: item.state is defined and item.state == 'absent'
+  notify: reload
 
 - name: LINEINFILE | Add host to BackupPC server
   tags: client
@@ -25,3 +26,5 @@
     regexp="^{{ item.hostname }}"
     state={{ item.state if item.state is defined else 'present' }}
   with_items: "{{ backuppc_hosts }}"
+  notify: reload
+
