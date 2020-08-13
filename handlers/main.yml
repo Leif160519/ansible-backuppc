@@ -1,5 +1,6 @@
 ---
-
+# https://sourceforge.net/p/backuppc/mailman/message/26339186/
 - name: restart backuppc
-  action: service name=backuppc state=restarted enabled=yes
+  shell: docker exec -u backuppc backuppc /usr/local/BackupPC/bin/BackupPC_serverMesg server reload
+# shell: docker exec backuppc supervisorctl restart backuppc
 
